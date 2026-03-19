@@ -27,3 +27,15 @@ def save_new_user(discord_id, username, tag):
 def get_user(discord_id):
     users = load_data()
     return users.get(str(discord_id))
+    
+def remove_user(discord_id):
+    users = load_data()
+
+    discord_id = str(discord_id)
+
+    if discord_id in users:
+        del users[discord_id]
+        save_data(users)
+        return True
+
+    return False
