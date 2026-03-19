@@ -112,6 +112,14 @@ async def removeUser(interaction: discord.Interaction):
     else:
         await interaction.response.send_message("Failed to remove user data", ephemeral=True)
 
+@bot.tree.command(name="stats", description='Get an estimate of your stats')
+async def getStats(interaction: discord.Interaction, username: str = None, tag: str = None):
+    interaction.response.send_message("Not implamented yet sorry", ephemeral=True)
+
+@bot.tree.command(name="getrank", description="Get the rank of any given player")
+async def getrank(interaction: discord.Interaction, username: str = None, tag: str = None):
+    return
+
 @bot.tree.command(name="help", description="Get help on how to use the bot")
 async def help_command(interaction: discord.Interaction):
     embed = discord.Embed(

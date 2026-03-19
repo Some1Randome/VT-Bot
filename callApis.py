@@ -50,3 +50,17 @@ async def get_last_n_matches(user, tag, n=5):
         matches.append(data)
     
     return matches
+
+async def get_rank(user, tag):
+    url = f"https://api.henrikdev.xyz/valorant/v2/mmr/eu/{user}/{tag}"
+
+    headers = {
+        "Authorization": SECRET_KEY,
+        "Accept":"*/*"
+    }
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url=url, headers=headers) as resp:
+            matchdata = await resp.json()
+
+    return matchdata['data']['current_data']['images']['small']
