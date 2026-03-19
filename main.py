@@ -134,7 +134,7 @@ async def getrank(interaction: discord.Interaction, username: str = None, tag: s
             title="Current rank: "
         )
         embed.set_thumbnail(url=rank_image_url)
-        embed.add_field (name=username)
+        embed.add_field (name=username, value="")
         await interaction.followup.send(embed=embed)
     except Exception as e:
         await interaction.followup.send(f"Error fetching rank data: {str(e)}", ephemeral=True)
