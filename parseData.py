@@ -35,7 +35,7 @@ def get_match_summary(match_data, username=None, tag=None):
             user_team = player['team']
             break
     
-    if user_team == "red":
+    if user_team.lower() == "red":
         user_won = teams['red']['has_won']
     else:
         user_won = teams['blue']['has_won']
