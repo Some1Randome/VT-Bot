@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 import discord
 from discord.ext import commands
-from callApis import get_last_match, get_last_n_matches
+from callApis import get_last_match, get_last_n_matches, get_rank
 from parseData import format_match_data, format_matches_selection
 from userDataSaveGet import get_user, save_new_user, remove_user
 
@@ -117,8 +117,27 @@ async def getStats(interaction: discord.Interaction, username: str = None, tag: 
     interaction.response.send_message("Not implamented yet sorry", ephemeral=True)
 
 @bot.tree.command(name="getrank", description="Get the rank of any given player")
-async def getrank(interaction: discord.Interaction, username: str = None, tag: str = None):
-    return
+async def getrank(interaction: discord.Interaction, username: str = None, tag: str = None, hidden: bool = True):
+    try:
+        await interaction.response.defer(ephemeral=hidden)
+        
+        if username == None or tag == None:
+            user_data = get_user(interaction.user.id)
+            if user_data == None:
+                await interaction.followup.send("No username/tag provided and no saved user data found. Use `/reguser` to save your account.", ephemeral=True)
+                return
+            username = user_data['username']
+            tag = user_data['tag']
+        
+        rank_image_url = await get_rank(user=username, tag=tag)
+        embed = discord.Embed(
+            title="Current rank: "
+        )
+        embed.set_thumbnail(url=rank_image_url)
+        await interaction.followup.send(embed=embed)
+    except Exception as e:
+        await interaction.followup.send(f"Error fetching rank data: {str(e)}", ephemeral=True)
+    
 
 @bot.tree.command(name="help", description="Get help on how to use the bot")
 async def help_command(interaction: discord.Interaction):
@@ -165,6 +184,13 @@ async def help_command(interaction: discord.Interaction):
         "After removing your Info you can add new info\n" 
         "You cant remove others info obviously"
 
+    )
+
+    embed.add_field(
+        name="/getrank",
+        value="Get the rank of any player based on name and tag\n"
+        "**Usage**: `/getrank` (if saved) or `/getrank username:Name tag:Tag`\n"
+        "Shows: Current Rank"
     )
     
     embed.add_field(
