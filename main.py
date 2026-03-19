@@ -163,7 +163,7 @@ async def help_command(interaction: discord.Interaction):
         name=" Important Notice",
         value="• All match data you pull is **publicly visible** in the channel\n"
               "• Anyone can look up your matches if they have your username\n"
-              "• If you see `/saveriotinfo` after already saving your data the old one will be overidden without confirmation",
+              "• If you use `/saveriotinfo` after already saving your data the old one will be overidden without confirmation",
         inline=False
     )
     
