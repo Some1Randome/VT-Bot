@@ -11,7 +11,7 @@ def split_teams(players):
     return red, blue
 
 
-def get_match_summary(match_data):
+def get_match_summary(match_data, username=None, tag=None):
     """Extract basic info from match data: map, agent, and result"""
     metadata = match_data['metadata']
     players = match_data['players']
@@ -23,10 +23,17 @@ def get_match_summary(match_data):
     user_won = False
     
     for player in players:
-        # Assuming the first player in the list is the queried player
-        user_agent = player['character']
-        user_team = player['team']
-        break
+        # Find the queried player by username and tag
+        if username and tag:
+            if player['name'].lower() == username.lower() and player['tag'] == tag:
+                user_agent = player['character']
+                user_team = player['team']
+                break
+        else:
+            # Fallback to first player if no credentials provided
+            user_agent = player['character']
+            user_team = player['team']
+            break
     
     if user_team == "red":
         user_won = teams['red']['has_won']
@@ -44,14 +51,14 @@ def get_match_summary(match_data):
     }
 
 
-def format_matches_selection(matches):
+def format_matches_selection(matches, username=None, tag=None):
     """Format 5 matches for selection with emoji reactions"""
     selection_msg = "**Select a match:** (React with the corresponding number)\n\n"
     
     emojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
     
     for i, match in enumerate(matches):
-        summary = get_match_summary(match)
+        summary = get_match_summary(match, username, tag)
         map_name = summary['map']
         agent = summary['agent']
         result = summary['result']

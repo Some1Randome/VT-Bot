@@ -24,7 +24,6 @@ async def on_ready():
 
 @bot.event
 async def on_raw_reaction_add(payload):
-    """Handle reactions to match selection messages"""
     if payload.user_id == bot.user.id:
         return
     
@@ -68,7 +67,7 @@ async def getmatch(interaction: discord.Interaction, username: str = None, tag: 
             tag = user_data['tag']
         
         matches = await get_last_n_matches(username, tag, 5)        
-        selection_msg, emojis = format_matches_selection(matches)        
+        selection_msg, emojis = format_matches_selection(matches, username, tag)        
         message = await interaction.followup.send(selection_msg)
         
         for emoji in emojis[:len(matches)]:
