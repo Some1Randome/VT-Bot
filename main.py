@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands
 from callApis import get_last_match, get_last_n_matches
 from parseData import format_match_data, format_matches_selection
-from userDataSaveGet import get_user, save_new_user
+from userDataSaveGet import get_user, save_new_user, remove_user
 
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
@@ -106,6 +106,13 @@ async def reguser(interaction: discord.Interaction, username: str, tag: str):
     except:
         await interaction.response.send_message("Failed to save user. Try again later", ephemeral=True)
 
+@bot.tree.command(name="removesavedriotinfo", description="Remove your saved riot ID")
+async def removeUser(interaction: discord.Interaction):
+    if remove_user(interaction.user.id):
+        await interaction.response.send_message(f"Successfully removed your saved riot info", ephemeral=True)
+    else:
+        await interaction.response.send_message("Failed to remove user data", ephemeral=True)
+
 @bot.tree.command(name="help", description="Get help on how to use the bot")
 async def help_command(interaction: discord.Interaction):
     embed = discord.Embed(
@@ -144,12 +151,20 @@ async def help_command(interaction: discord.Interaction):
               "React with 1️⃣-5️⃣ to see full details for a match",
         inline=False
     )
+    embed.add_field(
+        name="/removesavedriotinfo",
+        value="Removes the riot data you saved to your user ID\n" 
+        "**Usage:** `/removesavedriotinfo` and that's it\n" 
+        "After removing your Info you can add new info\n" 
+        "You cant remove others info obviously"
+
+    )
     
     embed.add_field(
         name=" Important Notice",
         value="• All match data you pull is **publicly visible** in the channel\n"
               "• Anyone can look up your matches if they have your username\n"
-              "• If you sse `/saveriotinfo` after already saving your data the old one will be overidden without confirmation",
+              "• If you see `/saveriotinfo` after already saving your data the old one will be overidden without confirmation",
         inline=False
     )
     
