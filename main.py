@@ -183,15 +183,16 @@ async def help_command(interaction: discord.Interaction):
         value="Removes the riot data you saved to your user ID\n" 
         "**Usage:** `/removesavedriotinfo` and that's it\n" 
         "After removing your Info you can add new info\n" 
-        "You cant remove others info obviously"
-
+        "You cant remove others info obviously",
+        inline=False
     )
 
     embed.add_field(
         name="/getrank",
         value="Get the rank of any player based on name and tag\n"
-        "**Usage**: `/getrank` (if saved) or `/getrank username:Name tag:Tag`\n"
-        "Shows: Current Rank"
+                "**Usage**: `/getrank` (if saved) or `/getrank username:Name tag:Tag`\n"
+                "Shows: Current Rank",
+        inline=False
     )
     
     embed.add_field(
