@@ -142,8 +142,7 @@ async def getrank(interaction: discord.Interaction, username: str = None, tag: s
             title="Peak Rank",
             color=discord.Color.gold()
         )
-        peak_embed.set_thumbnail(url=rank_data['peak'])
-        peak_embed.add_field(name=username, value=f"#{tag}", inline=False)
+        peak_embed.add_field(name=username, value=rank_data['peak'], inline=False)
         
         await interaction.followup.send(embeds=[current_embed, peak_embed])
     except Exception as e:

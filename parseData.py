@@ -17,20 +17,17 @@ def get_match_summary(match_data, username=None, tag=None):
     players = match_data['players']
     teams = match_data['teams']
     
-    # Find the player's agent and team result
     user_agent = None
     user_team = None
     user_won = False
     
     for player in players:
-        # Find the queried player by username and tag
         if username and tag:
             if player['name'].lower() == username.lower() and player['tag'] == tag:
                 user_agent = player['character']
                 user_team = player['team']
                 break
         else:
-            # Fallback to first player if no credentials provided
             user_agent = player['character']
             user_team = player['team']
             break
