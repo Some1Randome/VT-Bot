@@ -86,7 +86,7 @@ async def getlastmatch(interaction: discord.Interaction, username: str = None, t
         if username is None or tag is None:
             user_data = get_user(interaction.user.id)
             if user_data is None:
-                await interaction.followup.send("No username/tag provided and no saved user data found. Use `/reguser` to save your account.", ephemeral=True)
+                await interaction.followup.send("No username/tag provided and no saved user data found. Use `/saveriotinfo` to save your account.", ephemeral=True)
                 return
             username = user_data['username']
             tag = user_data['tag']
@@ -124,7 +124,7 @@ async def getrank(interaction: discord.Interaction, username: str = None, tag: s
         if username == None or tag == None:
             user_data = get_user(interaction.user.id)
             if user_data == None:
-                await interaction.followup.send("No username/tag provided and no saved user data found. Use `/reguser` to save your account.", ephemeral=True)
+                await interaction.followup.send("No username/tag provided and no saved user data found. Use `/saveriotinfo` to save your account.", ephemeral=True)
                 return
             username = user_data['username']
             tag = user_data['tag']
