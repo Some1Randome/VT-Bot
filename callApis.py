@@ -63,4 +63,7 @@ async def get_rank(user, tag):
         async with session.get(url=url, headers=headers) as resp:
             matchdata = await resp.json()
 
-    return matchdata['data']['current_data']['images']['small']
+    return {
+        'current': matchdata['data']['current_data']['images']['small'],
+        'peak': matchdata['data']['peak_data']['images']['small']
+    }

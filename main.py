@@ -129,13 +129,23 @@ async def getrank(interaction: discord.Interaction, username: str = None, tag: s
             username = user_data['username']
             tag = user_data['tag']
         
-        rank_image_url = await get_rank(user=username, tag=tag)
-        embed = discord.Embed(
-            title="Current rank: "
+        rank_data = await get_rank(user=username, tag=tag)
+        
+        current_embed = discord.Embed(
+            title="Current Rank",
+            color=discord.Color.blue()
         )
-        embed.set_thumbnail(url=rank_image_url)
-        embed.add_field (name=username, value="")
-        await interaction.followup.send(embed=embed)
+        current_embed.set_thumbnail(url=rank_data['current'])
+        current_embed.add_field(name=username, value=f"#{tag}", inline=False)
+        
+        peak_embed = discord.Embed(
+            title="Peak Rank",
+            color=discord.Color.gold()
+        )
+        peak_embed.set_thumbnail(url=rank_data['peak'])
+        peak_embed.add_field(name=username, value=f"#{tag}", inline=False)
+        
+        await interaction.followup.send(embeds=[current_embed, peak_embed])
     except Exception as e:
         await interaction.followup.send(f"Error fetching rank data: {str(e)}", ephemeral=True)
     
