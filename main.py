@@ -190,7 +190,8 @@ async def help_command(interaction: discord.Interaction):
     embed.add_field(
         name="/getrank",
         value="Get the rank of any player based on name and tag\n"
-                "**Usage**: `/getrank` (if saved) or `/getrank username:Name tag:Tag`\n"
+                "**Usage**: `/getrank hidden:False` (if saved) or `/getrank username:Name tag:Tag hidden:False`\n"
+                "hidden referse to the messag being ephermal meaning that you are the only one who can read it **false = anyone can see it**"
                 "Shows: Current Rank",
         inline=False
     )
