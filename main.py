@@ -138,6 +138,7 @@ async def getrank(interaction: discord.Interaction, username: str = None, tag: s
         current_embed.set_thumbnail(url=rank_data['current'])
         current_embed.add_field(name=username, value=f"#{tag}", inline=False)
         current_embed.add_field(name="RR:", value=rank_data["rr"], inline=False)
+        current_embed.add_field(name="MMR:", value=rank_data["elo"], inline=True)
         
         peak_embed = discord.Embed(
             title="Peak Rank",

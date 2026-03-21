@@ -65,5 +65,6 @@ async def get_rank(user, tag):
     return {
         'current': matchdata['data']['current_data']['images']['small'],
         'peak': matchdata['data']['highest_rank']['patched_tier'],
-        'rr':matchdata['data']['current_data']['ranking_in_tier']
+        'rr': matchdata['data']['current_data']['ranking_in_tier'],
+        'elo': matchdata['data']['current_data']['elo']
     }
