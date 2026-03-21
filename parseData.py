@@ -88,7 +88,8 @@ def format_match_data(match_data):
             assists = player['stats']['assists']
             rank = player['currenttier_patched']
             formatted += f"`{name}#{tag}` - K: {kills} | D: {deaths} | A: {assists} - `{rank}`\n"
-        return formatted
+            
+        return sorted(formatted)
     
     result = f"**Map:** {map_name}\n**Mode:** {game_mode}\n**Winner:** {winner}\n"
     result += format_team(red, "🔴 Red Team")
