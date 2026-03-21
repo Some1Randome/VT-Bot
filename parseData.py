@@ -72,6 +72,9 @@ def format_match_data(match_data):
     
     red, blue = split_teams(players)
     
+    red.sort(key=lambda p: p['stats']['kills'], reverse=True)
+    blue.sort(key=lambda p: p['stats']['kills'], reverse=True)
+    
     red_score = teams['red']['has_won']
     winner = "Red Team" if red_score else "Blue Team"
     
@@ -89,7 +92,7 @@ def format_match_data(match_data):
             rank = player['currenttier_patched']
             formatted += f"`{name}#{tag}` - K: {kills} | D: {deaths} | A: {assists} - `{rank}`\n"
             
-        return sorted(formatted)
+        return formatted
     
     result = f"**Map:** {map_name}\n**Mode:** {game_mode}\n**Winner:** {winner}\n"
     result += format_team(red, "🔴 Red Team")
