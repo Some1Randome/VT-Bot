@@ -149,7 +149,10 @@ async def getrank(interaction: discord.Interaction, username: str = None, tag: s
         await interaction.followup.send(embeds=[current_embed, peak_embed])
     except Exception as e:
         await interaction.followup.send(f"Error fetching rank data: {str(e)}", ephemeral=True)
-    
+
+@bot.tree.command(name="mmrrange", description="Get the MMR range of evert rank")
+async def printmmr(interaction: discord.Interaction):
+    await interaction.response.send_message("mmr list:\n0–800    Iron\n800–1200    Bronze\n1200–1500    Silver\n1500–1700    Gold–Low Diamond\n1700–1900    Diamond–Ascendant\n1900–2200    Ascendant–Immortal\2200+    Immortal–Radiant", ephemeral=True)  
 
 @bot.tree.command(name="help", description="Get help on how to use the bot")
 async def help_command(interaction: discord.Interaction):
