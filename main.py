@@ -152,7 +152,7 @@ async def getrank(interaction: discord.Interaction, username: str = None, tag: s
 
 @bot.tree.command(name="mmrrange", description="Get the MMR range of evert rank")
 async def printmmr(interaction: discord.Interaction):
-    await interaction.response.send_message("mmr list:\n0–800    Iron\n800–1200    Bronze\n1200–1500    Silver\n1500–1700    Gold–Low Diamond\n1700–1900    Diamond–Ascendant\n1900–2200    Ascendant–Immortal\2200+    Immortal–Radiant", ephemeral=True)  
+    await interaction.response.send_message("mmr list:\n0–800    Iron\n800–1200    Bronze\n1200–1500    Silver\n1500–1700    Gold–Low Diamond\n1700–1900    Diamond–Ascendant\n1900–2200    Ascendant–Immortal\n2200+    Immortal–Radiant", ephemeral=True)  
 
 @bot.tree.command(name="help", description="Get help on how to use the bot")
 async def help_command(interaction: discord.Interaction):
@@ -206,10 +206,17 @@ async def help_command(interaction: discord.Interaction):
         value="Get the rank of any player based on name and tag\n"
                 "**Usage**: `/getrank hidden:False` (if saved) or `/getrank username:Name tag:Tag hidden:False`\n"
                 "hidden referse to the messag being ephermal meaning that you are the only one who can read it **false = anyone can see it**"
-                "Shows: Current Rank",
+                "Shows: Current Rank, Peak rank",
         inline=False
     )
     
+    embed.add_field(
+        name="/mmrrange",
+        value="Get the mmr value of every rank\n"
+        "**Usage:** `/mmrrange` thats it\n"
+        "Shows: The rank   mmr-rating, for every rank in the game"
+    )
+
     embed.add_field(
         name=" Important Notice",
         value="• All match data you pull is **publicly visible** in the channel\n"
