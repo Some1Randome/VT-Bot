@@ -157,7 +157,7 @@ async def printmmr(interaction: discord.Interaction):
 @bot.tree.command(name="changeregion", description="Change the region your account is registored in")
 async def newreg(interaction: discord.Interaction, region: str = 'eu'):
     response = await changeregion(region)
-    interaction.response.send_message(response, ephemeral=True)
+    await interaction.response.send_message(response, ephemeral=True)
 
 @bot.tree.command(name="help", description="Get help on how to use the bot")
 async def help_command(interaction: discord.Interaction):
