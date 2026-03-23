@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 import discord
 from discord.ext import commands
-from callApis import get_last_match, get_last_n_matches, get_rank
+from callApis import get_last_match, get_last_n_matches, get_rank, changeregion
 from parseData import format_match_data, format_matches_selection
 from userDataSaveGet import get_user, save_new_user, remove_user
 
@@ -153,6 +153,11 @@ async def getrank(interaction: discord.Interaction, username: str = None, tag: s
 @bot.tree.command(name="mmrrange", description="Get the MMR range of evert rank")
 async def printmmr(interaction: discord.Interaction):
     await interaction.response.send_message("mmr list:\n0–800    Iron\n800–1200    Bronze\n1200–1500    Silver\n1500–1700    Gold–Low Diamond\n1700–1900    Diamond–Ascendant\n1900–2200    Ascendant–Immortal\n2200+    Immortal–Radiant", ephemeral=True)  
+
+@bot.tree.command(name="changeregion", description="Change the region your account is registored in")
+async def newreg(interaction: discord.Interaction, region: str = 'eu'):
+    response = await changeregion(region)
+    interaction.response.send_message(response, ephemeral=True)
 
 @bot.tree.command(name="help", description="Get help on how to use the bot")
 async def help_command(interaction: discord.Interaction):
