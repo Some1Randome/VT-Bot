@@ -7,6 +7,7 @@ SECRET_KEY = os.getenv('VAL_API_KEY')
 region = "eu"
 
 async def changeregion(new_region):
+    global region
     old_region = region
     try:
         region = new_region
