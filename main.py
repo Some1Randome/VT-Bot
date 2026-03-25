@@ -257,7 +257,7 @@ async def help_command(interaction: discord.Interaction):
 
     embed.add_field(
         name="/stats",
-        value="Get a sum of you last 50 competetiv games"
+        value="Get a sum of you last 50 competetiv games\n"
         "**Usage:** `/stats hidden:False` (if saved) or `/stats username:Name tag:Tag hidden:False`\n"
         "Shows: Gives back a average of kills, deaths and score(score is not the same as the Valo tracker website but what riot saves 0-10000) and estimete of headshot bodyshot and legshot %",
         inline=False
