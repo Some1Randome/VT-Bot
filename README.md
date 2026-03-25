@@ -1,1 +1,1 @@
-Currently bot is hardcoded to only work for eu region, will be changed later
+Valorant Tracker discord Bot, works for all reagions(Aslong as correct one is selected) 
