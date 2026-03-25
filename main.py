@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 import discord
 from discord.ext import commands
-from callApis import get_last_match, get_last_n_matches, get_rank, changeregion
+from callApis import get_last_match, get_last_n_matches, get_rank, changeregion, get_stored
 from parseData import format_match_data, format_matches_selection
 from userDataSaveGet import get_user, save_new_user, remove_user
 
@@ -82,7 +82,6 @@ async def getmatch(interaction: discord.Interaction, username: str = None, tag: 
 async def getlastmatch(interaction: discord.Interaction, username: str = None, tag: str = None):
     try:
         await interaction.response.defer()
-        
         if username is None or tag is None:
             user_data = get_user(interaction.user.id)
             if user_data is None:
@@ -113,8 +112,36 @@ async def removeUser(interaction: discord.Interaction):
         await interaction.response.send_message("Failed to remove user data", ephemeral=True)
 
 @bot.tree.command(name="stats", description='Get an estimate of your stats')
-async def getStats(interaction: discord.Interaction, username: str = None, tag: str = None):
-    await interaction.response.send_message("Not implamented yet sorry", ephemeral=True)
+async def getStats(interaction: discord.Interaction, username: str = None, tag: str = None, hidden: bool = True):
+    try:
+        await interaction.response.defer(ephemeral=True)
+        if username == None or tag == None:
+            user_data = get_user(interaction.user.id)
+            if user_data == None:
+                await interaction.followup.send("No username/tag provided and no saved user data found. Use `/saveriotinfo` to save your account.", ephemeral=hidden)
+                return
+            username = user_data['username']
+            tag = user_data['tag']
+
+            data = await get_stored(user=username, tag=tag)
+            embed = discord.Embed(
+                title=f"Stats of {username}",
+                color=discord.Color.green()
+            )
+
+            embed.add_field(name="Avrage:",
+                             value=f"Kills: {data['kills'] / data['matches']}\n"
+                             f"Deaths: {data['deaths'] / data['matches']}\n"
+                             f"Score: {data['score'] / data['matches']}",
+                               inline=False)
+            embed.add_field(name="Hit %", value=f"Headshot %: {(data['shots']['head'] / data['totalshots']) * 100}\n"
+                            f"Bodyshot %: {(data['shots']['body'] / data['totalshots']) * 100}\n"
+                            f"Legshot %: {(data['shots']['leg'] / data['totalshots']) * 100}\n",
+                            inline=True)
+            await interaction.followup.send(embed=embed)
+    except Exception as e:
+        await interaction.followup.send(f"An error occured: {e}")
+        
 
 @bot.tree.command(name="getrank", description="Get the rank of any given player")
 async def getrank(interaction: discord.Interaction, username: str = None, tag: str = None, hidden: bool = True):

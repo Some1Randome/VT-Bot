@@ -79,3 +79,39 @@ async def get_rank(user, tag):
         'rr': matchdata['data']['current_data']['ranking_in_tier'],
         'elo': matchdata['data']['current_data']['elo']
     }
+
+async def get_stored(user, tag):
+    url = f"https://api.henrikdev.xyz/valorant/v1/stored-matches/{region}/{user}/{tag}"
+    headers = {
+        "Authorization": SECRET_KEY,
+        "Accept":"*/*"
+    }
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url=url, headers=headers) as resp:
+            matchdata = await resp.json
+
+    def extract_data(matchdata):
+        total_matches = len(matchdata['data'])
+        extracted_data = {
+            'matches': total_matches,
+            'kills': 0,
+            'deaths': 0,
+            'score': 0,
+            'shots': {
+                'head': 0,
+                'body': 0,
+                'leg': 0
+            },
+            'totalhits': 0
+        }
+        for i in range(total_matches):
+            stats = matchdata['data'][i]['stats']
+            extracted_data['kills'] += stats['kills']
+            extracted_data['deaths'] += stats['deaths']
+            extracted_data['score'] += stats['score']
+            extracted_data['shots']['head'] += stats['shots']['head']
+            extracted_data['shots']['body'] += stats['shots']['body']
+            extracted_data['shots']['leg'] += stats['shots']['leg']
+        extracted_data['totalhits'] = stats['shots']['head'] + stats['shots']['body'] + stats['shots']['leg']
+        return extracted_data
+    return extract_data(matchdata=matchdata)
