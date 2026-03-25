@@ -138,12 +138,12 @@ async def getStats(interaction: discord.Interaction, username: str = None, tag: 
                          value=f"Kills: {data['kills'] / data['matches']:.2f}\n"
                          f"Deaths: {data['deaths'] / data['matches']:.2f}\n"
                          f"Score: {data['score'] / data['matches']:.0f}",
-                           inline=False)
+                           inline=True)
         embed.add_field(name="Hit %", value=f"Headshot %: {(data['shots']['head'] / data['totalshots']) * 100:.1f}%\n"
                         f"Bodyshot %: {(data['shots']['body'] / data['totalshots']) * 100:.1f}%\n"
                         f"Legshot %: {(data['shots']['leg'] / data['totalshots']) * 100:.1f}%\n",
                         inline=True)
-        embed.set_footer(text="Data is taken from your last 50 Competetiv games, if you dont have 50 played the idk")
+        embed.set_footer(text=f"Data used to get these stats are from the users last {data['matches']} competetiv games")
         await interaction.followup.send(embed=embed, ephemeral=hidden)
     except Exception as e:
         await interaction.followup.send(f"An error occured: {e}")
