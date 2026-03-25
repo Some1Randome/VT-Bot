@@ -88,7 +88,7 @@ async def get_stored(user, tag):
     }
     async with aiohttp.ClientSession() as session:
         async with session.get(url=url, headers=headers) as resp:
-            matchdata = await resp.json
+            matchdata = await resp.json()
 
     def extract_data(matchdata):
         total_matches = len(matchdata['data'])
@@ -101,17 +101,23 @@ async def get_stored(user, tag):
                 'head': 0,
                 'body': 0,
                 'leg': 0
-            },
-            'totalhits': 0
+            }
         }
         for i in range(total_matches):
-            stats = matchdata['data'][i]['stats']
-            extracted_data['kills'] += stats['kills']
-            extracted_data['deaths'] += stats['deaths']
-            extracted_data['score'] += stats['score']
-            extracted_data['shots']['head'] += stats['shots']['head']
-            extracted_data['shots']['body'] += stats['shots']['body']
-            extracted_data['shots']['leg'] += stats['shots']['leg']
-        extracted_data['totalhits'] = stats['shots']['head'] + stats['shots']['body'] + stats['shots']['leg']
+            stats = matchdata['data'][i].get('stats', {})
+            if not stats:
+                continue
+            extracted_data['kills'] += stats.get('kills', 0)
+            extracted_data['deaths'] += stats.get('deaths', 0)
+            extracted_data['score'] += stats.get('score', 0)
+            shots = stats.get('shots', {})
+            extracted_data['shots']['head'] += shots.get('head', 0)
+            extracted_data['shots']['body'] += shots.get('body', 0)
+            extracted_data['shots']['leg'] += shots.get('leg', 0)
+        
+        extracted_data['totalshots'] = (extracted_data['shots']['head'] + 
+                                       extracted_data['shots']['body'] + 
+                                       extracted_data['shots']['leg'])
         return extracted_data
+    
     return extract_data(matchdata=matchdata)
