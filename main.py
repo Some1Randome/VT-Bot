@@ -123,22 +123,28 @@ async def getStats(interaction: discord.Interaction, username: str = None, tag: 
             username = user_data['username']
             tag = user_data['tag']
 
-            data = await get_stored(user=username, tag=tag)
-            embed = discord.Embed(
-                title=f"Stats of {username}",
-                color=discord.Color.green()
-            )
+        data = await get_stored(user=username, tag=tag)
+        
+        # Prevent division by zero
+        if data['matches'] == 0 or data['totalshots'] == 0:
+            await interaction.followup.send("No match data available for this user.", ephemeral=hidden)
+            return
+        
+        embed = discord.Embed(
+            title=f"Stats of {username}",
+            color=discord.Color.green()
+        )
 
-            embed.add_field(name="Avrage:",
-                             value=f"Kills: {data['kills'] / data['matches']}\n"
-                             f"Deaths: {data['deaths'] / data['matches']}\n"
-                             f"Score: {data['score'] / data['matches']}",
-                               inline=False)
-            embed.add_field(name="Hit %", value=f"Headshot %: {(data['shots']['head'] / data['totalshots']) * 100}\n"
-                            f"Bodyshot %: {(data['shots']['body'] / data['totalshots']) * 100}\n"
-                            f"Legshot %: {(data['shots']['leg'] / data['totalshots']) * 100}\n",
-                            inline=True)
-            await interaction.followup.send(embed=embed)
+        embed.add_field(name="Average:",
+                         value=f"Kills: {data['kills'] / data['matches']:.2f}\n"
+                         f"Deaths: {data['deaths'] / data['matches']:.2f}\n"
+                         f"Score: {data['score'] / data['matches']:.0f}",
+                           inline=False)
+        embed.add_field(name="Hit %", value=f"Headshot %: {(data['shots']['head'] / data['totalshots']) * 100:.1f}%\n"
+                        f"Bodyshot %: {(data['shots']['body'] / data['totalshots']) * 100:.1f}%\n"
+                        f"Legshot %: {(data['shots']['leg'] / data['totalshots']) * 100:.1f}%\n",
+                        inline=True)
+        await interaction.followup.send(embed=embed)
     except Exception as e:
         await interaction.followup.send(f"An error occured: {e}")
         
