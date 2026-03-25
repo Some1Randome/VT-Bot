@@ -114,7 +114,7 @@ async def removeUser(interaction: discord.Interaction):
 @bot.tree.command(name="stats", description='Get an estimate of your stats')
 async def getStats(interaction: discord.Interaction, username: str = None, tag: str = None, hidden: bool = True):
     try:
-        await interaction.response.defer(ephemeral=True)
+        await interaction.response.defer(ephemeral=hidden)
         if username == None or tag == None:
             user_data = get_user(interaction.user.id)
             if user_data == None:
@@ -127,7 +127,7 @@ async def getStats(interaction: discord.Interaction, username: str = None, tag: 
         
         # Prevent division by zero
         if data['matches'] == 0 or data['totalshots'] == 0:
-            await interaction.followup.send("No match data available for this user.", ephemeral=hidden)
+            await interaction.followup.send("No match data available for this user.")
             return
         
         embed = discord.Embed(
