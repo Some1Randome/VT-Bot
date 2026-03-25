@@ -125,7 +125,6 @@ async def getStats(interaction: discord.Interaction, username: str = None, tag: 
 
         data = await get_stored(user=username, tag=tag)
         
-        # Prevent division by zero
         if data['matches'] == 0 or data['totalshots'] == 0:
             await interaction.followup.send("No match data available for this user.")
             return
@@ -254,6 +253,14 @@ async def help_command(interaction: discord.Interaction):
         value="Get the mmr value of every rank\n"
         "**Usage:** `/mmrrange` thats it\n"
         "Shows: The rank   mmr-rating, for every rank in the game"
+    )
+
+    embed.add_field(
+        name="/stats",
+        value="Get a sum of you last 50 competetiv games"
+        "**Usage:** `/stats hidden:False` (if saved) or `/stats username:Name tag:Tag hidden:False`\n"
+        "Shows: Gives back a average of kills, deaths and score(score is not the same as the Valo tracker website but what riot saves 0-10000) and estimete of headshot bodyshot and legshot %",
+        inline=False
     )
 
     embed.add_field(
