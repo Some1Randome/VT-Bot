@@ -86,8 +86,12 @@ async def get_stored(user, tag):
         "Authorization": SECRET_KEY,
         "Accept":"*/*"
     }
+    perams = {
+        'mode': "competetiv",
+        'size': 50
+    }
     async with aiohttp.ClientSession() as session:
-        async with session.get(url=url, headers=headers) as resp:
+        async with session.get(url=url, headers=headers, perams=perams) as resp:
             matchdata = await resp.json()
 
     def extract_data(matchdata):
