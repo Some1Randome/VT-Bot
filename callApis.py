@@ -124,7 +124,7 @@ async def get_stored(user, tag):
             extracted_data['kills'] += stats.get('kills', 0)
             extracted_data['deaths'] += stats.get('deaths', 0)
             extracted_data['score'] += stats.get('score', 0)
-            if winner == data.get('team', ''):
+            if winner == stats.get('team', '').lower():
                 extracted_data['wins'] += 1
             shots = stats.get('shots', {})
             extracted_data['shots']['head'] += shots.get('head', 0)
