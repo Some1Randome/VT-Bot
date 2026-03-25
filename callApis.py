@@ -109,23 +109,23 @@ async def get_stored(user, tag):
             }
         }
         def didWin(matchdata):
-            winner_team = None
+            if matchdata['teams']['red'] == matchdata['teams']['blue']:
+                return None
             if matchdata['teams']['red'] > matchdata['teams']['blue']:
-                winner_team = "red"
+                return "red"
             else:
-                if matchdata['teams']['red'] < matchdata['teams']['blue']:
-                    winner_team = "blue"
-                else:
-                    return "draw"
-            return winner_team
+                return "blue"
         for i in range(total_matches):
             data = matchdata['data'][i]
             stats = data.get('stats', {})
             if not stats:
                 continue
+            winner = didWin(data)
             extracted_data['kills'] += stats.get('kills', 0)
             extracted_data['deaths'] += stats.get('deaths', 0)
             extracted_data['score'] += stats.get('score', 0)
+            if winner is stats.get('team', 0):
+                extracted_data['wins'] += 1
             shots = stats.get('shots', {})
             extracted_data['shots']['head'] += shots.get('head', 0)
             extracted_data['shots']['body'] += shots.get('body', 0)
